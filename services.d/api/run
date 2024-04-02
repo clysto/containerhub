@@ -1,0 +1,4 @@
+#!/command/with-contenv sh
+
+cd /srv/api
+exec /srv/api/containerhub-api -c /srv/api/data/config.toml
