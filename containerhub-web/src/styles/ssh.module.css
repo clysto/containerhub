@@ -1,0 +1,5 @@
+.terminal {
+  overflow: hidden;
+  scrollbar-color: #808080 #212121;
+  scrollbar-width: thin;
+}

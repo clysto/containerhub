@@ -56,6 +56,10 @@ export function currentUser() {
   return store.user;
 }
 
+export function getJWTToken() {
+  return store.token;
+}
+
 export function startContainer(id) {
   return m.request('/api/v1/containers/start', {
     method: 'POST',
@@ -107,6 +111,16 @@ export function listKeys() {
 export function generateKey(containerId) {
   return m.request('/api/v1/containers/keys', {
     method: 'POST',
+    headers: {
+      Authorization: `${store.token}`,
+    },
+    params: { id: containerId },
+  });
+}
+
+export function deleteKey(containerId) {
+  return m.request('/api/v1/containers/keys', {
+    method: 'DELETE',
     headers: {
       Authorization: `${store.token}`,
     },

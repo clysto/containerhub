@@ -18,13 +18,6 @@ FROM alpine:3.18.4
 
 ARG S6_OVERLAY_VERSION=3.1.6.0
 
-RUN mkdir /srv/sshpiperd
-RUN mkdir -p /srv/api/data
-COPY --from=builder /sshmux/sshmux /srv/sshpiperd/sshmux
-COPY --from=builder /sshpiperd/out/sshpiperd /srv/sshpiperd/sshpiperd
-COPY --from=builder /api/containerhub-api /srv/api/containerhub-api
-RUN mkdir /etc/ssh/
-
 # add s6-overlay
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
 RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz
@@ -33,6 +26,13 @@ RUN tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz
 
 # copy s6 services
 COPY services.d/ /etc/services.d/
+
+RUN mkdir /srv/sshpiperd
+RUN mkdir -p /srv/api/data
+COPY --from=builder /sshmux/sshmux /srv/sshpiperd/sshmux
+COPY --from=builder /sshpiperd/out/sshpiperd /srv/sshpiperd/sshpiperd
+COPY --from=builder /api/containerhub-api /srv/api/containerhub-api
+RUN mkdir /etc/ssh/
 
 EXPOSE 2222
 EXPOSE 8080

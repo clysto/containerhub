@@ -1,3 +1,11 @@
 dd {
-    margin-bottom: .2rem;
+  margin-bottom: 0.2rem;
+}
+
+.terminal.xterm {
+  padding: 8px;
+}
+
+.navbar .nav-link.active {
+  font-weight: 600;
 }

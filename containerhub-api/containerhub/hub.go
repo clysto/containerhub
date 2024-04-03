@@ -103,6 +103,7 @@ func (h *Hub) CreateContainer(image string, user string, customName string, caPu
 		ExposedPorts: nat.PortSet{
 			"22/tcp": struct{}{},
 		},
+		Hostname: customName,
 	}, &container.HostConfig{
 		NetworkMode: "containerhub",
 	}, nil, nil, name)

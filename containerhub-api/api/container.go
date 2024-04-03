@@ -150,10 +150,10 @@ func GenerateSSHKey(ctx *gin.Context) {
 	key.PublicKey = string(publicKey)
 	key.Certificate = string(cert)
 	key.Hash = hash
-	key.ConatainerID = containerID
+	key.ContainerID = containerID
 	key.UserID = user.UserID
 	key.ContainerHost = container.Labels["containerhub-hostname"]
-	key.ConatainerName = container.Labels["containerhub-name"]
+	key.ContainerName = container.Labels["containerhub-name"]
 	if err := global.DB.Create(&key).Error; err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
@@ -175,7 +175,7 @@ func DeleteSSHKey(ctx *gin.Context) {
 	user := ctx.Keys["user"].(models.Claims)
 	id := ctx.Query("id")
 	key := models.SSHKey{}
-	if err := global.DB.Where("id = ? AND user_id = ?", id, user.UserID).First(&key).Error; err != nil {
+	if err := global.DB.Where("container_id = ? AND user_id = ?", id, user.UserID).First(&key).Error; err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}

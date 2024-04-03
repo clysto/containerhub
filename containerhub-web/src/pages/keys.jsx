@@ -1,6 +1,6 @@
 import { listContainers, listKeys } from '../api';
 import Layout from '../components/layout';
-import { generateKey } from '../api';
+import { generateKey, deleteKey } from '../api';
 
 function textToOctetStreamURL(text) {
   const blob = new Blob([text], { type: 'application/octet-stream' });
@@ -16,7 +16,12 @@ function KeysPage() {
       return;
     }
     generateKey(containerId).then((data) => {
-      console.log(data);
+      sshKeys.push(data);
+    });
+  }
+  function handleDeleteKey(containerID) {
+    deleteKey(containerID).then(() => {
+      sshKeys = sshKeys.filter((key) => key.containerID !== containerID);
     });
   }
   return {
@@ -26,13 +31,18 @@ function KeysPage() {
       });
       listKeys().then((data) => {
         sshKeys = data;
-        console.log(data);
       });
     },
     view() {
       return (
         <Layout>
-          <div className="container p-4">
+          <div class="border-bottom">
+            <div className="container py-5">
+              <h1>SSH Keys</h1>
+              <p className="lead mb-0">Generate SSH keys for your containers.</p>
+            </div>
+          </div>
+          <div className="container py-4">
             <div className="input-group">
               <select class="form-select" id="container-id">
                 <option value="0" selected>
@@ -43,7 +53,7 @@ function KeysPage() {
                 ))}
               </select>
               <button class="col-auto btn btn-primary" onclick={handleGenerateKey}>
-                Generate RSA Key
+                <i class="bi bi-key-fill"></i> Generate Key
               </button>
             </div>
 
@@ -69,9 +79,11 @@ function KeysPage() {
                           className="btn btn-primary btn-sm"
                           href={textToOctetStreamURL(key.privateKey)}
                         >
-                          Download
+                          <i class="bi bi-file-earmark-arrow-down-fill"></i>
                         </a>
-                        <button className="btn btn-danger btn-sm">Delete</button>
+                        <button className="btn btn-danger btn-sm" onclick={() => handleDeleteKey(key.containerID)}>
+                          <i class="bi bi-trash-fill"></i>
+                        </button>
                       </div>
                     </td>
                   </tr>

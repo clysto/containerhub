@@ -13,8 +13,13 @@ function ImagePage() {
     view() {
       return (
         <Layout>
-          <div className="container p-4">
-            <h1 class="mb-4">All Images</h1>
+          <div class="border-bottom">
+            <div className="container py-5">
+              <h1>All Images</h1>
+              <p className="lead mb-0">Browse all available images.</p>
+            </div>
+          </div>
+          <div className="container py-4">
             <div className="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-4">
               {images.map((image) => (
                 <div class="col">

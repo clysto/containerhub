@@ -2,6 +2,7 @@ package main
 
 import (
 	"containerhub-api/api"
+	"containerhub-api/common"
 	"containerhub-api/config"
 	"containerhub-api/containerhub"
 	"containerhub-api/global"
@@ -30,6 +31,13 @@ func main() {
 	}
 	global.DB.AutoMigrate(models.User{}, models.SSHKey{})
 	router := gin.Default()
+	// 生成全局SSH密钥对
+	privateKeyPEM, _, certBytes, _, err := common.GenerateRSAKeyPairWithCert("containerhub")
+	if err != nil {
+		panic(err)
+	}
+	global.Config.SSH.GlobalPrivkey = privateKeyPEM
+	global.Config.SSH.GlobalCert = certBytes
 	v1 := router.Group("/v1")
 	{
 		v1.POST("/login", api.Login)
@@ -43,6 +51,7 @@ func main() {
 		v1.POST("/containers/keys", middleware.Auth, api.GenerateSSHKey)
 		v1.GET("/containers/keys", middleware.Auth, api.ListSSHKeys)
 		v1.DELETE("/containers/keys", middleware.Auth, api.DeleteSSHKey)
+		v1.GET("/ssh", api.SSHHandler)
 	}
 	router.Run(fmt.Sprintf("%s:%d", global.Config.Host, global.Config.Port))
 }

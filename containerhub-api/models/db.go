@@ -8,14 +8,14 @@ type User struct {
 }
 
 type SSHKey struct {
-	ID             uint   `json:"id" gorm:"primaryKey"`
-	Hash           string `json:"hash"`
-	Certificate    string `json:"certificate"`
-	PublicKey      string `json:"publicKey"`
-	PrivateKey     string `json:"privateKey"`
-	ConatainerID   string `json:"containerID" gorm:"uniqueIndex"`
-	ConatainerName string `json:"containerName"`
-	ContainerHost  string `json:"containerHost"`
-	UserID         uint   `json:"userID"`
-	User           User   `json:"user" gorm:"foreignKey:UserID"`
+	ID            uint   `json:"id" gorm:"primaryKey"`
+	Hash          string `json:"hash"`
+	Certificate   string `json:"certificate"`
+	PublicKey     string `json:"publicKey"`
+	PrivateKey    string `json:"privateKey"`
+	ContainerID   string `json:"containerID" gorm:"uniqueIndex"`
+	ContainerName string `json:"containerName"`
+	ContainerHost string `json:"containerHost"`
+	UserID        uint   `json:"userID"`
+	User          User   `json:"user" gorm:"foreignKey:UserID"`
 }

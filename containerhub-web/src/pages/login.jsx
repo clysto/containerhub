@@ -21,8 +21,8 @@ function LoginPage() {
     view() {
       return (
         <Layout>
-          <div class="container">
-            <div class={classNames(styles.form, 'rounded-3 border')}>
+          <div class="container py-4">
+            <div class={classNames(styles.form, 'rounded-3 border shadow')}>
               <h1 class={styles.title}>Login</h1>
               <div class="mb-2">
                 <label class="form-label" htmlFor="username">
@@ -39,7 +39,7 @@ function LoginPage() {
               {message && <div class="alert alert-warning mt-4">{message}</div>}
               <div class="mt-5 d-grid gap-2">
                 <button class="btn btn-primary" onclick={handleLogin}>
-                  Login
+                  <i class="bi bi-door-open-fill"></i> Login
                 </button>
               </div>
             </div>

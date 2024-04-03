@@ -24,6 +24,8 @@ type Config struct {
 		CAPubkeyFile  string `toml:"ca_pubkey_file"`
 		CAPrivkeyPEM  []byte
 		CAPubkeyPEM   []byte
+		GlobalPrivkey []byte
+		GlobalCert    []byte
 	} `toml:"ssh"`
 	Images []Image `toml:"images"`
 }

@@ -36,8 +36,8 @@ function ImageCard({ attrs: { image } }) {
             </dl>
             <p class="cart-text mt-2">{image.description}</p>
             <div class="gap-2 d-flex mt-3 ">
-              <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
-                Create
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+                <i class="bi bi-hammer"></i> Create
               </button>
             </div>
           </div>
@@ -45,12 +45,12 @@ function ImageCard({ attrs: { image } }) {
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">Create New Container</h5>
+                  <h5 class="modal-title">Create Container</h5>
                 </div>
                 <div class="modal-body">
                   <div>
                     <label htmlFor="custom-name" className="form-label">
-                      Custom Name
+                      Name
                     </label>
                     <input
                       id="custom-name"

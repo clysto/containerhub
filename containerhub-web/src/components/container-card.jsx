@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { startContainer, stopContainer, destroyContainer } from '../api';
+import { Link } from 'mithril/route';
 
 function ContainerCard({ attrs: { container, onchange } }) {
   let actionRunning = false;
@@ -22,12 +23,17 @@ function ContainerCard({ attrs: { container, onchange } }) {
       });
   }
 
+  function handleOpenShell() {
+    const url = window.location.origin + '/#!/ssh?id=' + container.Id;
+    window.open(url, 'popup', 'width=800,height=600');
+  }
+
   return {
     view({ attrs: { container } }) {
       const d = new Date(container.Created * 1000);
       return (
         <div class="card shadow">
-          <h5 class="card-header">{container.Labels["containerhub-name"]}</h5>
+          <h5 class="card-header">{container.Labels['containerhub-name']}</h5>
           <div class="card-body">
             <dl class="row mb-0">
               <dt class="col-sm-3">ID</dt>
@@ -59,14 +65,29 @@ function ContainerCard({ attrs: { container, onchange } }) {
                 disabled={actionRunning}
               >
                 {actionRunning && <span class="spinner-border spinner-border-sm me-1"></span>}
-                <span role="status">{container.State === 'running' ? 'Stop' : 'Start'}</span>
+                <span role="status">
+                  {container.State === 'running' ? (
+                    <>
+                      <i class="bi bi-stop-fill"></i> Stop
+                    </>
+                  ) : (
+                    <>
+                      <i class="bi bi-caret-right-fill"></i> Start
+                    </>
+                  )}
+                </span>
               </button>
-              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#destroyModal">
-                Destroy
+              {container.State === 'running' && (
+                <button className="btn btn-primary" onclick={handleOpenShell}>
+                  <i class="bi bi-terminal-fill"></i> Shell
+                </button>
+              )}
+              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target={'#destroy' + container.Id}>
+                <i class="bi bi-trash-fill"></i> Destroy
               </button>
             </div>
           </div>
-          <div class="modal fade" id="destroyModal">
+          <div class="modal fade" id={'destroy' + container.Id}>
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-body">
