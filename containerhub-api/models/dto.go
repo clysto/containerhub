@@ -8,7 +8,8 @@ type LoginParam struct {
 }
 
 type ContainerCreateParam struct {
-	Image string `json:"image"`
+	Image      string `json:"image"`
+	CustomName string `json:"customName"`
 }
 
 type Claims struct {

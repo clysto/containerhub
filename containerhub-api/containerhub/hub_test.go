@@ -21,7 +21,7 @@ func TestCreateContainer(t *testing.T) {
 	if err != nil {
 		t.Errorf("ConnectHub() failed: %v", err)
 	}
-	id, err := hub.CreateContainer("containerhub-basic:latest", "maoyachen", nil)
+	id, err := hub.CreateContainer("containerhub-basic:latest", "maoyachen", "test", nil)
 	if err != nil {
 		t.Errorf("CreateContainer() failed: %v", err)
 	}

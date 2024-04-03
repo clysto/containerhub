@@ -38,7 +38,6 @@ function LoginPage() {
               </div>
               {message && <div class="alert alert-warning mt-4">{message}</div>}
               <div class="mt-5 d-grid gap-2">
-                <button class="btn btn-secondary">Cancel</button>
                 <button class="btn btn-primary" onclick={handleLogin}>
                   Login
                 </button>

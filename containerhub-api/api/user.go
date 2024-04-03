@@ -39,7 +39,7 @@ func Login(ctx *gin.Context) {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(200, gin.H{"token": t})
+	ctx.JSON(200, gin.H{"token": t, "user": user})
 }
 
 func Signup(ctx *gin.Context) {

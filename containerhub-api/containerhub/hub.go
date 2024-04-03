@@ -81,7 +81,7 @@ func (h *Hub) ListContainers(user string) ([]types.Container, error) {
 	return containers, err
 }
 
-func (h *Hub) CreateContainer(image string, user string, caPubKeyPEM []byte) (string, error) {
+func (h *Hub) CreateContainer(image string, user string, customName string, caPubKeyPEM []byte) (string, error) {
 	name := "containerhub-" + shortuuid.New()
 	err := h.ensureNetwork("containerhub")
 	if err != nil {
@@ -91,9 +91,10 @@ func (h *Hub) CreateContainer(image string, user string, caPubKeyPEM []byte) (st
 	resp, err := h.client.ContainerCreate(h.ctx, &container.Config{
 		Image: image,
 		Labels: map[string]string{
-			"containerhub":      "v1",
-			"containerhub-user": user,
-			"containerhub-name": name,
+			"containerhub":          "v1",
+			"containerhub-user":     user,
+			"containerhub-name":     customName,
+			"containerhub-hostname": name,
 		},
 		Env: []string{
 			"CONTAINERHUB_USER=" + user,

@@ -2,6 +2,7 @@ package api
 
 import (
 	"containerhub-api/common"
+	"containerhub-api/config"
 	"containerhub-api/containerhub"
 	"containerhub-api/global"
 	"containerhub-api/models"
@@ -27,7 +28,20 @@ func CreateContainer(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	id, err := global.Hub.CreateContainer(param.Image, user.Username, global.Config.SSH.CAPubkeyPEM)
+	var image config.Image
+	found := false
+	for _, img := range global.Config.Images {
+		if img.Name == param.Image {
+			image = img
+			found = true
+			break
+		}
+	}
+	if !found {
+		ctx.JSON(400, gin.H{"error": "Image not found"})
+		return
+	}
+	id, err := global.Hub.CreateContainer(image.ImageName, user.Username, param.CustomName, global.Config.SSH.CAPubkeyPEM)
 	if err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
@@ -138,12 +152,12 @@ func GenerateSSHKey(ctx *gin.Context) {
 	key.Hash = hash
 	key.ConatainerID = containerID
 	key.UserID = user.UserID
-	key.ContainerHost = container.Labels["containerhub-name"]
+	key.ContainerHost = container.Labels["containerhub-hostname"]
+	key.ConatainerName = container.Labels["containerhub-name"]
 	if err := global.DB.Create(&key).Error; err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-
 	ctx.JSON(200, key)
 }
 

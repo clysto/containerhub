@@ -34,6 +34,7 @@ func main() {
 	{
 		v1.POST("/login", api.Login)
 		v1.POST("/signup", api.Signup)
+		v1.GET("/images", api.ListImages)
 		v1.GET("/containers", middleware.Auth, api.ListContainers)
 		v1.POST("/containers", middleware.Auth, api.CreateContainer)
 		v1.POST("/containers/start", middleware.Auth, api.StartContainer)

@@ -6,6 +6,14 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
+type Image struct {
+	Name        string   `toml:"name" json:"name"`
+	ImageName   string   `toml:"image_name" json:"imageName"`
+	Description string   `toml:"description" json:"description"`
+	Author      string   `toml:"author" json:"author"`
+	Tags        []string `toml:"tags" json:"tags"`
+}
+
 type Config struct {
 	Host         string `toml:"host"`
 	Port         int    `toml:"port"`
@@ -17,6 +25,7 @@ type Config struct {
 		CAPrivkeyPEM  []byte
 		CAPubkeyPEM   []byte
 	} `toml:"ssh"`
+	Images []Image `toml:"images"`
 }
 
 func LoadConfig(file string, config *Config) {
